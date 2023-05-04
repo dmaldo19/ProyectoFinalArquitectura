@@ -12,7 +12,7 @@ especifico.
 """
 
 ##Abrir el archivo de texto donde estan las instrucciones##
-with open('C:/Users/diego/Desktop/Decoder/programa.txt', 'r') as archivo:
+with open('programa.txt', 'r') as archivo:
     instrucciones = archivo.readlines()
 
 #Dividir cada linea del archivo en una instruccion
@@ -68,7 +68,7 @@ for i in range(len(instrucciones)):
     crearInstruccion(instrucciones[i]);
 
 # abrir archivo en modo escritura
-with open('C:/Users/diego/Desktop/Decoder/instruccionesBinario.txt', 'w') as archivo:
+with open('Mem_Inst', 'w') as archivo:
     
     for instruccion in setInstrucciones:
         #Convertir cada instrucción en una cadena y dividirla en líneas de 8 bits
