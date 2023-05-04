@@ -4,6 +4,7 @@ import textwrap
 Decodificador en python PCebres
 """
 
+
 """
 Tener cuidado con las direcciones de lectura y escritura del archivo.
 Dependiendo de la computadora puede ser necesario ser mas o menos
@@ -11,7 +12,7 @@ especifico.
 """
 
 ##Abrir el archivo de texto donde estan las instrucciones##
-with open('programa.txt', 'r') as archivo:
+with open('C:/Users/diego/Desktop/Decoder/programa.txt', 'r') as archivo:
     instrucciones = archivo.readlines()
 
 #Dividir cada linea del archivo en una instruccion
@@ -19,9 +20,9 @@ instrucciones = [linea.split('\n')[0] for linea in instrucciones];
 archivo.close();
 
 ##Diccionario para las Instrucciones a utilizar:
-opcode = {"add":"000000", "sub":"000000", "or":"000000", "and":"000000", "slt":"000000", "nop":"000000"}
+opcode = {"add":"000000", "sub":"000000", "or":"000000", "and":"000000", "slt":"000000", "nop":"000000", "jr":"000000"};
 
-shamt_function = {"add":"00000100000", "sub":"00000100010", "or":"00000100101", "and":"00000100100", "slt":"00000101010", "nop":"00000000000"}
+shamt_function = {"add":"00000100000", "sub":"00000100010", "or":"00000100101", "and":"00000100100", "slt":"00000101010", "nop":"00000000000", "jr":"00000001000"};
 
 #Lista de instrucciones que se pasara al nuevo archivo txt
 setInstrucciones = [];
@@ -63,12 +64,11 @@ def decimal_a_binario(n):
     binario = format(n, '0>5b'); #Hace que el valor tenga 5 bits siempre
     return binario;
 
-#Agregar los valores a la lista con todas las instrucciones ya convertidas a binario
 for i in range(len(instrucciones)):
     crearInstruccion(instrucciones[i]);
 
 # abrir archivo en modo escritura
-with open('instruccionesBinario.txt', 'w') as archivo:
+with open('C:/Users/diego/Desktop/Decoder/instruccionesBinario.txt', 'w') as archivo:
     
     for instruccion in setInstrucciones:
         #Convertir cada instrucción en una cadena y dividirla en líneas de 8 bits
