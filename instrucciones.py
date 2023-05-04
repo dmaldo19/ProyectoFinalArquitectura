@@ -68,7 +68,7 @@ for i in range(len(instrucciones)):
     crearInstruccion(instrucciones[i]);
 
 # abrir archivo en modo escritura
-with open('Mem_Inst', 'w') as archivo:
+with open('Mem_Inst.txt', 'w') as archivo:
     
     for instruccion in setInstrucciones:
         #Convertir cada instrucción en una cadena y dividirla en líneas de 8 bits
