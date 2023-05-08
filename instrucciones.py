@@ -36,10 +36,21 @@ def crearInstruccion(instruccion):
     operacion = palabras.pop(0);
     operacion = operacion.lower();
 
-    #Obtener los registros necesarios
-    rd = int(palabras.pop(0).replace('$', '').replace(',', '')); #registro destino
-    rs = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 1
-    rt = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 2
+    if(operacion == "nop"):
+        rd = "00000";
+        rs = "00000";
+        rt = "00000";
+    
+    else:
+        #Obtener los registros necesarios
+        rd = int(palabras.pop(0).replace('$', '').replace(',', '')); #registro destino
+        rs = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 1
+        rt = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 2
+    
+        #Convertir los registros a binario
+        rd = decimal_a_binario(rd);
+        rs = decimal_a_binario(rs);
+        rt = decimal_a_binario(rt);
 
     """
     Las instrucciones pueden ser escritas con o sin ,
@@ -48,11 +59,6 @@ def crearInstruccion(instruccion):
     Add $7 $3 $5
     Estos son los formatos validos
     """
-
-    #Convertir los registros a binario
-    rd = decimal_a_binario(rd);
-    rs = decimal_a_binario(rs);
-    rt = decimal_a_binario(rt);
 
     #Crear la instruccion en binario
     lineaInstruccion = opcode[operacion] + rs + rt + rd + shamt_function[operacion];
