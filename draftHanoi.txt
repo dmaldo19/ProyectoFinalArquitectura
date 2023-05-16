@@ -1,0 +1,51 @@
+main:
+addi a0, $0, #3 # discos
+addi a1, $0, #1 # torre 1
+addi a2, $0, #2 # torre 2
+addi a3, $0, #3 # torre 3
+addi t7, $0, #0
+jal  Hanoi
+j    terminar
+
+Hanoi:
+addi sp, sp, #-20 # Hace hueco en la pila para 5 elementos 
+sw	ra, 16(sp) # Guarda la dirección de llamada arriba de la pila 
+sw    a0,  0(sp) # Guarda el num. de discos
+sw	a1,  4(sp) # Guarda torre1
+sw	a2,  8(sp) # Guarda torre3
+sw    a3, 12(sp) # Guarda torre2
+
+slti  t1, a0, #1
+bne  t1, 1, Recursion
+j terminar
+
+Recursion:
+lw      a0, 0(sp) # Recuperamos los valores de la pila
+lw      a1, 4(sp)
+lw      a2, 12(sp) # Intercambiamos el de enmedio con el final
+lw      a3, 8(sp)
+addi     a0, a0, #-1 #se resta un disco que verá la función llamada
+
+jal Hanoi
+
+addi    t7, t7, #1
+la      a0, cadena1 # indicamos la cadena y aprovechamos los otros argumentos
+add	  a1, $0, t7   # Copia el valor de t7 en a1
+lw      a2, 4(sp)
+lw      a3, 12(sp)
+lw      a0, 0(sp) # Recuperamos los valores de la pila
+lw      a3, 12(sp)
+lw      a1, 8(sp) # Intercambiamos el primero con el de enmedio
+lw      a2, 4(sp)
+sub     a0, a0, 1 # Disminuye en uno el número de discos que verá la función llamada
+jal Hanoi
+
+terminar:
+
+lw      a0, 0(sp) # carga de vuelta el num. de discos en a0
+lw      a1, 4(sp) # E igualmente deshace la operación con el resto
+lw      a2, 8(sp) # de los registros
+lw      a3, 12(sp)
+lw      ra, 16(sp)
+addi sp, sp, #20 # Vuelve a colocar el puntero de pila 
+jr ra
