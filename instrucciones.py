@@ -20,9 +20,15 @@ instrucciones = [linea.split('\n')[0] for linea in instrucciones];
 archivo.close();
 
 ##Diccionario para las Instrucciones a utilizar:
-opcode = {"add":"000000", "sub":"000000", "or":"000000", "and":"000000", "slt":"000000", "nop":"000000", "jr":"000000"};
+opcode = {"add":"000000", "sub":"000000", "or":"000000", "and":"000000", "slt":"000000", "nop":"000000", "jr":"000000", "addi":"001000", "ori":"001101", "andi":"001100", "slti":"001010", "lw":"100011", "sw":"101011", "beq":"000100", "bne":"000101"};
 
 shamt_function = {"add":"00000100000", "sub":"00000100010", "or":"00000100101", "and":"00000100100", "slt":"00000101010", "nop":"00000000000", "jr":"00000001000"};
+
+#Lista de instrucciones segun su tipo:
+r_instructions = ["add", "sub", "or", "and", "slt", "nop", "jr"];
+i_instructions = ["addi", "ori", "andi", "slti"];
+load_store_instructions = ["lw", "sw"]
+branch_instructions = ["beq", "bne"]
 
 #Lista de instrucciones que se pasara al nuevo archivo txt
 setInstrucciones = [];
@@ -37,11 +43,9 @@ def crearInstruccion(instruccion):
     operacion = operacion.lower();
 
     if(operacion == "nop"):
-        rd = "00000";
-        rs = "00000";
-        rt = "00000";
+        lineaInstruccion = "00000000000000000000000000000000"
     
-    else:
+    elif(operacion in r_instructions):
         #Obtener los registros necesarios
         rd = int(palabras.pop(0).replace('$', '').replace(',', '')); #registro destino
         rs = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 1
@@ -51,6 +55,58 @@ def crearInstruccion(instruccion):
         rd = decimal_a_binario(rd);
         rs = decimal_a_binario(rs);
         rt = decimal_a_binario(rt);
+    
+        #Crear la instruccion en binario
+        lineaInstruccion = opcode[operacion] + rs + rt + rd + shamt_function[operacion];
+    
+    elif(operacion in i_instructions):
+        #Obtener los registros necesarios
+        rt = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 1
+        rs = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 2
+        immediate = int(palabras.pop(0).replace('#', '').replace(',', '')); #valor
+    
+        #Convertir los registros a binario
+        rs = decimal_a_binario(rs);
+        rt = decimal_a_binario(rt);
+        immediate = format(immediate, '0>16b');
+    
+        #Crear la instruccion en binario
+        lineaInstruccion = opcode[operacion] + rs + rt + immediate
+        
+    elif(operacion in load_store_instructions):
+        #Obtener los registros necesarios
+        rt = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 1
+        
+        #Crea un string con el valor del offset con el base pointer
+        line = palabras.pop(0).replace('#', '').replace('(', ' ').replace('$', '').replace(')', '');
+        #Separa el string en palabras
+        offset_base = line.split();
+        #Obtiene los valores necesarios para cada variable
+        offset = int(offset_base.pop(0));
+        base = int(offset_base.pop(0));
+        
+        #Convierte los valores a binario
+        rt = decimal_a_binario(rt);
+        base = decimal_a_binario(base);
+        offset = format(offset, '0>16b');
+        
+        #Crea la instruccion
+        lineaInstruccion = opcode[operacion] + base + rt + offset
+        
+    elif(operacion in branch_instructions):
+        #Obtener los registros necesarios
+        rs = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 1
+        rt = int(palabras.pop(0).replace('$', '').replace(',', '')); #register 2
+        offset = int(palabras.pop(0).replace('#', '').replace(',', '')); #valor
+    
+        #Convertir los registros a binario
+        rs = decimal_a_binario(rs);
+        rt = decimal_a_binario(rt);
+        offset = format(offset, '0>16b');
+    
+        #Crear la instruccion en binario
+        lineaInstruccion = opcode[operacion] + rs + rt + offset
+        
 
     """
     Las instrucciones pueden ser escritas con o sin ,
@@ -60,8 +116,6 @@ def crearInstruccion(instruccion):
     Estos son los formatos validos
     """
 
-    #Crear la instruccion en binario
-    lineaInstruccion = opcode[operacion] + rs + rt + rd + shamt_function[operacion];
     #Agregar la instruccion a la lista con todas las instrucciones en binario
     setInstrucciones.append(lineaInstruccion);
 
