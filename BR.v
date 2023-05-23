@@ -1,11 +1,11 @@
 `timescale 1ns/1ns
 
-module BR(
+module BR( //Registers
 	input Write,
 	input [4:0]RR1,
 	input [4:0]RR2,
-	input [4:0]WA,
-	input [31:0]WD,
+	input [4:0]WA, //Write Register
+	input [31:0]WD, //Write Data
 
 	output reg[31:0]DR1,
 	output reg[31:0]DR2

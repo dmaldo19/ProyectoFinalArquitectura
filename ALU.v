@@ -9,7 +9,6 @@ output reg [31:0]Salida,
 output reg ZF
 );
 
-reg[31:0] RAM [0:63];
 
 	always @*
 	begin
@@ -35,6 +34,10 @@ reg[31:0] RAM [0:63];
 			begin
 			Salida = (OP1<OP2)? 1:0;
 			end
+		4'b1000: // BEQ
+			begin
+			Salida = (OP1 == OP2) ? 1 : 0;
+			end
 		endcase
 		if(Salida == 32'd0)
 		begin
@@ -44,7 +47,4 @@ reg[31:0] RAM [0:63];
 			ZF = 1'b0;
 
 	end
-
-
-
 endmodule

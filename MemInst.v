@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module MemInst(
+module MemInst( //Instruction memory
 input [31:0]Dir,
 
 output reg [31:0]DatoS

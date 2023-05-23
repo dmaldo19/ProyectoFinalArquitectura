@@ -1,16 +1,16 @@
 `timescale 1ns/1ns
 
 module Mux(
-	input Sel,
-	input [31:0]MD,
-	input [31:0]ALU,
+	input MemToReg,
+	input [31:0]MD, //Read data DatoS
+	input [31:0]ALU, //ALU Salida
 
-	output reg [31:0]Salida
+	output reg [31:0]Salida 
 );
 
 always @*
 begin
-	case(Sel)
+	case(MemToReg)
 	1'b1:
 		begin
 		Salida = MD;
