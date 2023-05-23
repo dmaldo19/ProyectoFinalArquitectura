@@ -34,17 +34,23 @@ output reg ZF
 			begin
 			Salida = (OP1<OP2)? 1:0;
 			end
-		4'b1000: // BEQ
+		4'b1100: //NOR
 			begin
-			Salida = (OP1 == OP2) ? 1 : 0;
+			Salida = ~(OP1|OP2);
+			end
+		default:
+			begin
+			Salida = 32'b0;
 			end
 		endcase
-		if(Salida == 32'd0)
+		if(Salida == 32'b0)
 		begin
 			ZF = 1'b1;
 		end
 		else
+		begin
 			ZF = 1'b0;
+		end
 
 	end
 endmodule

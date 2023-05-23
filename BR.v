@@ -20,6 +20,7 @@ end
 
 	always @*
 	begin
+	Banco_de_Registros[0] = 32'b0;
 		if(Write)
 		begin
 			Banco_de_Registros[WA] = WD;

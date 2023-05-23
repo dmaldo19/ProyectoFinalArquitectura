@@ -6,6 +6,6 @@ module Sumador(
 	output [31:0]Salida
 );
 
-assign Salida = Entrada + 3'd4;
+assign Salida = Entrada + 32'd4;
 
 endmodule

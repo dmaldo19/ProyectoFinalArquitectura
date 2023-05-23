@@ -53,7 +53,7 @@ begin
 	end
 	3'b101: // BEQ
 	begin
-		ALU_Control = 4'b1000;
+		ALU_Control = 4'b0110;
 	end
 	endcase
 end

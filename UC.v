@@ -10,6 +10,7 @@ module UC(
 	output reg [2:0]ALUOP,
 	output reg MemWrite,
 	output reg ALUSrc,
+	output reg J,
 	output reg RegWrite
 );
 
@@ -18,7 +19,7 @@ begin
 	case(OP)
 	6'b000000://R-type
 		begin
-		RegDst = 1'b0;
+		RegDst = 1'b1;
 		Branch = 1'b0;
 		MemRead = 1'b0; 
 		MemToReg = 1'b0;
@@ -26,6 +27,7 @@ begin
 		MemWrite = 1'b0; 
 		ALUSrc = 1'b0;
 		RegWrite = 1'b1;
+		J = 1'b0;
 		end
 	6'b001000: // I-type ADDI
     		begin
@@ -37,6 +39,7 @@ begin
         	MemWrite = 1'b0;
         	ALUSrc = 1'b1;
         	RegWrite = 1'b1;
+		J = 1'b0;
    		end
 	6'b001010: // I-type SLTI
     		begin
@@ -48,6 +51,7 @@ begin
         	MemWrite = 1'b0;
         	ALUSrc = 1'b1;
         	RegWrite = 1'b1;
+		J = 1'b0;
     		end
 	6'b001100: // I-type ANDI
     		begin
@@ -59,6 +63,7 @@ begin
         	MemWrite = 1'b0;
         	ALUSrc = 1'b1;
         	RegWrite = 1'b1;
+		J = 1'b0;
     		end
 	6'b001101: // I-type ORI
     		begin
@@ -70,6 +75,7 @@ begin
         	MemWrite = 1'b0;
         	ALUSrc = 1'b1;
         	RegWrite = 1'b1;
+		J = 1'b0;
     		end
 	6'b000100: // I-type BEQ
     		begin
@@ -77,10 +83,11 @@ begin
         	Branch = 1'b1;
         	MemRead = 1'b0;
         	MemToReg = 1'b0;
-        	ALUOP = 3'b101; // SUB
+        	ALUOP = 3'b101; // sub
         	MemWrite = 1'b0;
-        	ALUSrc = 1'b1;
+        	ALUSrc = 1'b0;
         	RegWrite = 1'b0;
+		J = 1'b0;
     		end
 	6'b100011: // I-type Lw
     		begin
@@ -92,6 +99,7 @@ begin
         	MemWrite = 1'b0;
         	ALUSrc = 1'b1;
         	RegWrite = 1'b1;
+		J = 1'b0;
     		end
 	6'b101011: // I-type Sw
     		begin
@@ -103,7 +111,17 @@ begin
         	MemWrite = 1'b1;
         	ALUSrc = 1'b1;
         	RegWrite = 1'b0;
+		J = 1'b0;
     		end
+	6'b000010: //Jump
+		begin
+		ALUSrc = 1'b0;
+		MemRead = 1'b0;
+		MemWrite = 1'b1;
+		RegWrite = 1'b0;
+		Branch = 1'b0;
+		J = 1'b1;
+		end
 
 	endcase
 end
