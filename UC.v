@@ -115,11 +115,14 @@ begin
     		end
 	6'b000010: //Jump
 		begin
-		ALUSrc = 1'b0;
-		MemRead = 1'b0;
-		MemWrite = 1'b1;
-		RegWrite = 1'b0;
-		Branch = 1'b0;
+		RegDst = 1'b0;
+        	Branch = 1'b0;
+        	MemRead = 1'b0;
+        	MemToReg = 1'b0;
+        	ALUOP = 3'b000; // ADD
+        	MemWrite = 1'b0;
+        	ALUSrc = 1'b0;
+        	RegWrite = 1'b0;
 		J = 1'b1;
 		end
 
